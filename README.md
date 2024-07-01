@@ -1,6 +1,6 @@
 # data-visualisation
 
-!(https://anthosaxe.github.io/data-visualisation/)
+https://anthosaxe.github.io/data-visualisation/
 
 this repo contains my first project about the data visualisation
 
