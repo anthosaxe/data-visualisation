@@ -1,35 +1,53 @@
-//premier tab
+/*          
+            First Exercice
+*/
 
-const parent1 = document.querySelector('h3');
-const datas1 = document.createElement('div');
-parent1.appendChild(datas1);
-const canva1 = document.createElement('canvas');
-datas1.appendChild(canva1);
-const table1_full = document.getElementById('table1');
-const t1_tr = table1_full.querySelectorAll('tbody tr');
+var divFirstChart = document.createElement("div");
+var parentFirstChart = document.querySelector("h3").parentNode;
+parentFirstChart.insertBefore(divFirstChart, document.querySelector("#table1"));
 
-const labels = [];
-const data = [];
+const firstCanvas = document.createElement("canvas");
+divFirstChart.appendChild(firstCanvas);
+const ctxFirst = firstCanvas.getContext("2d");
 
-// Iterate over each row to extract data
-t1_tr.forEach(row => {
-    const cells = row.querySelectorAll('td');
-    if (cells.length > 0) {
-        labels.push(cells[0].innerText); // Extract category (first cell)
-        data.push(parseFloat(cells[1].innerText)); // Extract value (second cell) and convert to number
+var tableOffence = document.getElementById("table1");
+
+var tableRowsFirst = tableOffence.querySelectorAll("tr");
+tableRowsFirst = Array.from(tableRowsFirst).slice(1);
+
+var tableColumnsFirst;
+var countryFirst;
+var yearFirst;
+var dataFirst;
+var datasetFirst;
+
+var labelsFirst = [];
+var dataPerYearFirst = {};
+
+var colorsFirst = ['black','purple','yellow','green','blue','red','cyan','magenta','orange','pink','lime',];
+
+tableRowsFirst.forEach(function (rowFirst) {
+    tableColumnsFirst = rowFirst.querySelectorAll("td");
+    if (tableColumnsFirst.length > 2) {
+        countryFirst = tableColumnsFirst[0].textContent;
+        labelsFirst.push(countryFirst);
+    }
+
+    for (var i = 1; i < tableColumnsFirst.length; i++) {
+        yearFirst = 2002 + i - 1;
+        dataFirst = parseFloat(tableColumnsFirst[i].textContent.replace(',','.'));
+        if (!dataPerYearFirst[yearFirst]) {
+            dataPerYearFirst[yearFirst] = [];
+        }
+        dataPerYearFirst[yearFirst].push(dataFirst);
     }
 });
 
-const ctx = canva1.getContext('2d'); // Use the created canvas element
-new Chart(ctx, { // Use the Chart constructor
-    type: 'bar', // You can change the chart type here
+var myFirstChart = new Chart(ctxFirst, {
+    type: "bar",
     data: {
-        labels: labels,
-        datasets: [{
-            label: 'Values',
-            data: data,
-            borderWidth: 1
-        }]
+        labels: labelsFirst,
+        datasets: []
     },
     options: {
         scales: {
@@ -40,37 +58,70 @@ new Chart(ctx, { // Use the Chart constructor
     }
 });
 
+var colorIndexFirst = 0;
 
-//deuxième tab
-const parent2 = document.getElementById('Homicides');
-const datas2 = document.createElement('div');
-parent2.appendChild(datas2);
-const canva2 = document.createElement('canvas');
-datas2.appendChild(canva2);
-const table2_full = document.getElementById('table2');
-const t1_tr2 = table2_full.querySelectorAll('tbody tr');
+for (var yearFirst in dataPerYearFirst) {
+    datasetFirst = {
+        label: yearFirst,
+        data: dataPerYearFirst[yearFirst],
+        backgroundColor: colorsFirst[colorIndexFirst],
+    };
+    myFirstChart.data.datasets.push(datasetFirst);
+    colorIndexFirst +=1;
+}
 
-const labels2 = [];
-const data2 = [];
+myFirstChart.update();
 
-t1_tr2.forEach(row => {
-    const cells2 = row.querySelectorAll('td');
-    if (cells2.length > 0) {
-        labels2.push(cells2[0].innerText); // Extract category (first cell)
-        data2.push(parseFloat(cells2[1].innerText)); // Extract value (second cell) and convert to number
+/* 
+            Second Exercice
+*/
+
+var divSecondChart = document.createElement("div");
+parentFirstChart.insertBefore(divSecondChart, document.querySelector("#table2"));
+
+const secondCanvas = document.createElement("canvas");
+divSecondChart.appendChild(secondCanvas);
+const ctxSecond = secondCanvas.getContext("2d");
+
+var tablePrison = document.getElementById("table2");
+
+var tableRowsSecond = tablePrison.querySelectorAll("tr");
+tableRowsSecond = Array.from(tableRowsSecond).slice(1);
+
+var tableColumnsSecond;
+var countrySecond;
+var dateSecond;
+var dataSecond;
+var datasetSecond;
+
+var labelsSecond = [];
+var dataPerYearSecond = {};
+
+tableRowsSecond.forEach(function (rowSecond) {
+    tableColumnsSecond = rowSecond.querySelectorAll("td");
+    if (tableColumnsSecond.length > 2) {
+        countrySecond = tableColumnsSecond[0].textContent.replace('\n', ' ');
+        labelsSecond.push(countrySecond);
+    }
+
+    for (var i = 1; i < tableColumnsSecond.length; i++) {
+        if (i == 1)
+            dateSecond = "2007 - 09";
+        else
+            dateSecond = "2010 - 12"
+        dataSecond = parseFloat(tableColumnsSecond[i].textContent.replace(',','.'));
+        if (!dataPerYearSecond[dateSecond]) {
+            dataPerYearSecond[dateSecond] = [];
+        }
+        dataPerYearSecond[dateSecond].push(dataSecond);
     }
 });
 
-const ctx2 = canva2.getContext('2d'); // Use the created canvas element
-new Chart(ctx2, { // Use the Chart constructor
-    type: 'bar', // You can change the chart type here
+var mySecondChart = new Chart(ctxSecond, {
+    type: "bar",
     data: {
-        labels: labels2,
-        datasets: [{
-            label: 'Values',
-            data: data2,
-            borderWidth: 1
-        }]
+        labels: labelsSecond,
+        datasets: []
     },
     options: {
         scales: {
@@ -81,22 +132,38 @@ new Chart(ctx2, { // Use the Chart constructor
     }
 });
 
+var colorIndexSecond = 0;
 
-//troisième tab
-var tab3;
+for (var dateSecond in dataPerYearSecond) {
+    datasetSecond = {
+        label: dateSecond,
+        data: dataPerYearSecond[dateSecond],
+        backgroundColor: colorsFirst[colorIndexSecond],
+    };
+    mySecondChart.data.datasets.push(datasetSecond);
+    colorIndexSecond = (1 + colorIndexSecond) % colorsFirst.length;
+}
 
-var data3 = document.createElement("div");
-var parent3 = document.querySelector("h1").parentNode;
-parent3.insertBefore(data3, document.querySelector("#bodyContent"));
+mySecondChart.update();
 
-const canva3 = document.createElement("canvas");
-canva3.width = 10;
-data3.appendChild(canva3);
-const ctx3 = canva3.getContext("2d");
+/* 
+            Third Exercice
+*/
+
+var thirdChart;
+
+var divThirdChart = document.createElement("div");
+var parentThirdChart = document.querySelector("h1").parentNode;
+parentThirdChart.insertBefore(divThirdChart, document.querySelector("#bodyContent"));
+
+const thirdCanvas = document.createElement("canvas");
+thirdCanvas.width = 10;
+divThirdChart.appendChild(thirdCanvas);
+const ctxThird = thirdCanvas.getContext("2d");
 
 var dataPoints = [];
 
-var data3 = new Chart(ctx3, {
+var myChartThird = new Chart(ctxThird, {
     type: 'line',
     data: {
         labels: [],
@@ -118,8 +185,8 @@ function fetchData() {
         .then(data => {
             if (data.length > 0) {
                 dataPoints.push(data[0][1]);
-                data3.data.labels.push(data[0][0]);
-                data3.update();
+                myChartThird.data.labels.push(data[0][0]);
+                myChartThird.update();
             }
             console.log(dataPoints)
         })
