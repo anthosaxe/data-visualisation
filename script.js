@@ -1,6 +1,4 @@
-/*          
-            First Exercice
-*/
+//tab 1
 
 var divFirstChart = document.createElement("div");
 var parentFirstChart = document.querySelector("h3").parentNode;
@@ -72,9 +70,7 @@ for (var yearFirst in dataPerYearFirst) {
 
 myFirstChart.update();
 
-/* 
-            Second Exercice
-*/
+// tab2
 
 var divSecondChart = document.createElement("div");
 parentFirstChart.insertBefore(divSecondChart, document.querySelector("#table2"));
@@ -146,9 +142,7 @@ for (var dateSecond in dataPerYearSecond) {
 
 mySecondChart.update();
 
-/* 
-            Third Exercice
-*/
+// tab3
 
 var thirdChart;
 
